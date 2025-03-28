@@ -1,23 +1,24 @@
-import React from "react";
-import { useCharacterCount } from "./hooks/useCharacterCount";
-import TextArea from "./components/TextArea";
-import ProgressBar from "./components/ProgressBar";
-import CopyButton from "./components/CopyButton";
-import "./index.css";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { WatchlistProvider } from './context/WatchListContext.jsx';
+import HomePage from './pages/HomePage.jsx';
+import WatchlistPage from './pages/Watchlistpage.jsx';
 
-const App = () => {
-    const { state, updateText, progress, warning } = useCharacterCount();
-
-    return (
-        <div className="app-container">
-            <h1>Real-Time Character Counter</h1>
-            <TextArea text={state.text} updateText={updateText} />
-            <p className="char-count">{state.count} / 200</p>
-            <ProgressBar progress={progress} warning={warning} />
-            {warning && <p className="warning-text">Warning: Approaching limit!</p>}
-            <CopyButton text={state.text} />
-        </div>
-    );
-};
+function App() {
+  return (
+    <WatchlistProvider>
+      <Router>
+        <nav className="navbar">
+          <Link to="/" className="navbar-brand">Movie App</Link>
+          <Link to="/watchlist" className="navbar-link">Watchlist</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/watchlist" element={<WatchlistPage />} />
+        </Routes>
+      </Router>
+    </WatchlistProvider>
+  );
+}
 
 export default App;
